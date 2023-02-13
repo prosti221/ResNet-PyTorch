@@ -1,6 +1,6 @@
 '''
-Implementing a 34-layer ResNet model as described in the paper.
-This has a fixed number of layers and is not adapted to change.
+Implementing a 34-layer/18-layer ResNet model as described in the paper.
+We can get a reduced network with 18 layers by setting reduced=True in the constructor for ResNet()
 
 Paper: https://arxiv.org/pdf/1512.03385.pdf
 '''
