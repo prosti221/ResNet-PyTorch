@@ -33,7 +33,7 @@ if __name__ == '__main__':
     model = ResNet(num_classes, True).to(device) # Initializing a reduced 18 layer model
 
     loss_fn = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=0.00005)
     lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=30, gamma=0.1)
 
     # Load from checkpoint
@@ -43,7 +43,7 @@ if __name__ == '__main__':
             model.load_state_dict(checkpoint['model_state_dict'])
             optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
             epoch_checkpoint = checkpoint['epoch']
-            #steps = checkpoint['steps']
+            steps = checkpoint['steps']
             loss = checkpoint['loss']
         except FileNotFoundError:
             print("Error: Checkpoint file not found")
@@ -74,7 +74,6 @@ if __name__ == '__main__':
             optimizer.zero_grad()
             outputs = model(inputs)
             loss = loss_fn(outputs, labels)
-            print(loss)
 
             loss.backward()
             optimizer.step()

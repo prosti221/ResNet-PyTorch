@@ -6,6 +6,7 @@ Paper: https://arxiv.org/pdf/1512.03385.pdf
 '''
 import torch
 import torch.nn as nn
+import torch.nn.init as init
 import numpy as np
 
 class ResidualBlock(nn.Module):
@@ -55,6 +56,13 @@ class Conv2dAuto(nn.Conv2d):
         super().__init__(*args, **kwargs)
         self.padding =  (self.kernel_size[0] // 2, self.kernel_size[1] // 2)
 
+
+def _weights_init(m):
+    classname = m.__class__.__name__
+    #print(classname)
+    if isinstance(m, nn.Linear) or isinstance(m, nn.Conv2d):
+        init.kaiming_normal_(m.weight)
+
 # Reduced is set true for an 18-layer network instead of 37
 class ResNet(nn.Module):
     def __init__(self, num_classes=1000, reduced=False):
@@ -72,6 +80,7 @@ class ResNet(nn.Module):
                 nn.AdaptiveAvgPool2d((1, 1)),
                 )
         self.fc = nn.Linear(in_features=512, out_features=num_classes)
+        self.apply(_weights_init)
 
     def forward(self, x):
         return self.fc(self.model(x).view(-1, 512))
