@@ -1,5 +1,5 @@
 '''
-Implementing a N-layerr ResNet model as described in the paper.
+Implementing a N-layer ResNet model as described in the paper.
 We can choose the amount of residual blocks to include for each stack level by changing the stack_depth in the constructor for ResNet().
 By default the stack_depth is set for a 34-layer ResNet model. Set stack_depth to [2, 2, 2, 2] for 18-layers.
 
