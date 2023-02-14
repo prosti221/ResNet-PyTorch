@@ -30,10 +30,12 @@ if __name__ == '__main__':
     epoch_checkpoint = 0
     steps = 1
 
-    model = ResNet(num_classes, True).to(device) # Initializing a reduced 18 layer model
+    model = ResNet(num_classes, stack_depth=[2, 4, 6, 3]).to(device)
+    summary(model, (3, 224, 224))
+    exit()
 
     loss_fn = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=0.00005)
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=30, gamma=0.1)
 
     # Load from checkpoint

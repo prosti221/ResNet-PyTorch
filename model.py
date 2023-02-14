@@ -1,6 +1,7 @@
 '''
-Implementing a 34-layer/18-layer ResNet model as described in the paper.
-We can get a reduced network with 18 layers by setting reduced=True in the constructor for ResNet()
+Implementing a N-layerr ResNet model as described in the paper.
+We can choose the amount of residual blocks to include for each stack level by changing the stack_depth in the constructor for ResNet().
+By default the stack_depth is set for a 32-layer ResNet model. Set stack_depth to [2, 2, 2, 2] for 18-layers.
 
 Paper: https://arxiv.org/pdf/1512.03385.pdf
 '''
@@ -56,11 +57,10 @@ class Conv2dAuto(nn.Conv2d):
         super().__init__(*args, **kwargs)
         self.padding =  (self.kernel_size[0] // 2, self.kernel_size[1] // 2)
 
-# Reduced is set true for an 18-layer network instead of 37
 class ResNet(nn.Module):
-    def __init__(self, num_classes=1000, reduced=False):
+    def __init__(self, num_classes=1000, stack_depth = [3, 4, 6, 3]):
         super(ResNet, self).__init__()
-        stack_depth = [3, 8, 12, 6] if not reduced else [2, 2, 2, 2]
+        #stack_depth = [3, 4, 6, 3] if not reduced else [2, 2, 2, 2]
         self.model = nn.Sequential(
                 Conv2dAuto(3, 64, kernel_size=(7, 7)),
                 nn.BatchNorm2d(64),
