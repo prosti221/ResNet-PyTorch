@@ -19,7 +19,7 @@ This yielded a maximum accuracy of 67.8% on the valiation dataset.
 - The hyperparameters were:
     - batch_size = 32 
     - learning rate = 0.00001
-    - epoch = 16
+    - epoch = 30 
     - weight_decay = none
 
 These result are already better than what I could achieve with the AlexNet implementation.
