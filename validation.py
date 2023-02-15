@@ -1,12 +1,12 @@
 import torch
 import argparse
 from tqdm import tqdm
-from model import AlexNet
+from model import Net
 from utils.data_loader import *
 from torch.utils.tensorboard import SummaryWriter
 
 def get_args():
-    parser = argparse.ArgumentParser(description='Validation script for a AlexNet')
+    parser = argparse.ArgumentParser(description='Validation script for a ResNet')
     parser.add_argument('-model', type=str, default='./models/model.pth', help='path to model')
     parser.add_argument('-dataset', '--dataset', default='./data/ILSVRC2012_img_val', help='path to validation data')
     parser.add_argument('--batch_size', type=int, default=128, help='batch size')
@@ -27,7 +27,8 @@ if __name__ == '__main__':
     _, val_loader = cifar100_dataloader(args.dataset, args.batch_size, args.num_workers, download=True)
 
     loss_fn = torch.nn.CrossEntropyLoss()
-    model = AlexNet(args.classes)
+    model = ResNet(args.classes)
+
 
     # Load model
     try:
