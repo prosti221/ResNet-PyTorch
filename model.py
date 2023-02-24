@@ -57,6 +57,11 @@ class Conv2dAuto(nn.Conv2d):
         super().__init__(*args, **kwargs)
         self.padding =  (self.kernel_size[0] // 2, self.kernel_size[1] // 2)
 
+def weights_init(m):
+    classname = m.__class__.__name__
+    if isinstance(m, nn.Linear) or isinstance(m, nn.Conv2d):
+        init.kaiming_normal_(m.weight)
+
 class ResNet(nn.Module):
     def __init__(self, num_classes=1000, stack_depth = [3, 4, 6, 3]):
         super(ResNet, self).__init__()
@@ -73,6 +78,7 @@ class ResNet(nn.Module):
                 nn.AdaptiveAvgPool2d((1, 1)),
                 )
         self.fc = nn.Linear(in_features=512, out_features=num_classes)
+        self.apply(weights_init)
 
     def forward(self, x):
         return self.fc(self.model(x).view(-1, 512))
